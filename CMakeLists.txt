@@ -3,4 +3,4 @@ project(minimax_connect4)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(minimax_connect4 main.cpp)
+add_executable(minimax_connect4 main.cpp main_game/connect4_curses.cpp main_game/connect4_curses.hpp)
