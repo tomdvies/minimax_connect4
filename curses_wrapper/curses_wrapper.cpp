@@ -4,7 +4,6 @@
 
 #include "curses_wrapper.hpp"
 #include <curses.h>
-
 #include <cmath>
 #include <sstream>
 #include <vector>
