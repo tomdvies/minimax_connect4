@@ -9,6 +9,8 @@
 int function_calls = 0;
 
 int minimax_evaluate(std::function<int(std::vector<char> square,char team)> checkwin, std::vector<char> square,char player, char team, char enemy,int move);
+void dump_message(std::string message);
+int choice_minimax(std::function<int(std::vector<char> square,char team)> checkwin, std::vector<char> square, char team, char enemy);
 
 void dump_message(std::string message){
     std::ofstream outfile;

@@ -4,7 +4,6 @@
 
 #include "curses_wrapper.hpp"
 #include <curses.h>
-
 #include <cmath>
 #include <sstream>
 #include <vector>
@@ -12,11 +11,14 @@
 #include "../common_tools/common_tools.hpp"
 
 
+
+
 int curses_wrapper::initalise() {
     initscr();
     cbreak();
     clear();
     refresh();
+    start_color();
     return 0;
 }
 
@@ -102,7 +104,7 @@ int curses_wrapper::get_int(std::string message) {
     refresh();
     int number;
     char x  =getchar();
-    number = x -'0';
+    number = x - '0';
     return number;
 }
 

@@ -16,16 +16,23 @@
 class curses_wrapper {
 private:
     int initalise();
-    std::vector<int> get_string_coords(std::string string);
-public:
-    curses_wrapper(){
-        this->initalise();}
-    void middle_print(std::string string);
-    void clear_screen();
-    void close_screen();
-    std::string get_string(std::string message);
-    int get_int(std::string message);
 
+    std::vector<int> get_string_coords(std::string string);
+
+public:
+    curses_wrapper() {
+        this->initalise();
+    }
+
+    void middle_print(std::string string);
+
+    void clear_screen();
+
+    void close_screen();
+
+    std::string get_string(std::string message);
+
+    int get_int(std::string message);
 };
 
 
