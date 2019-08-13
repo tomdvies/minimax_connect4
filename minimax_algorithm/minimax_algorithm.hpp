@@ -10,4 +10,4 @@
 
 #endif //MINIMAX_MINIMAX_ALGORITHM_H
 
-int choice_minimax(std::function< int(std::vector<char>,char team) > checkwin, std::vector<char> square, char team, char enemy);
+int choice_minimax(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square, char team, char enemy);
