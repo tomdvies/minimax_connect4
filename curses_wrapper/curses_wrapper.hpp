@@ -8,7 +8,6 @@
 #endif //MINIMAX_CURSES_WRAPPER_HPP
 
 
-#include <iostream>
 #include <string>
 #include <curses.h>
 #include <vector>
