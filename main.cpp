@@ -4,7 +4,6 @@
 #include "main_game/connect4_curses.hpp"
 
 int main() {
-
     main_game();
     return 0;
 }
