@@ -38,7 +38,8 @@ void main_game(){
     char mark;
     char mark_e;
     c.clear_screen();
-    std::vector<std::vector<char>> board_vector(6,std::vector<char>(6,' ')) ;
+//    std::vector<std::vector<char>> board_vector(6,std::vector<char>(6,' ')) ;
+    std::vector<std::vector<char>> board_vector ={std::vector<char> {' ',' ',' ',' ',' ',' '},std::vector<char> {' ',' ',' ',' ',' ',' '},std::vector<char> {' ',' ',' ',' ',' ',' '},std::vector<char> {'O','X','O','X','O','X'},std::vector<char> {'X','O','X','O','X','O'},std::vector<char> {'X','O','X','O','X','O'}};
 //    std::vector<std::vector<char>> board_vector ={std::vector<char> {'O','X','O','X',' ',' '},std::vector<char> {'X','O','X','O',' ','X'},std::vector<char> {'O','X','O','X','O','X'},std::vector<char> {'O','X','O','X','O','X'},std::vector<char> {'X','O','X','O','O','O'},std::vector<char> {'X','O','X','O','X','O'}};
 
     while(won ==-1){
@@ -47,6 +48,7 @@ void main_game(){
         mark_e=(player==1) ? 'O' : 'X';
         board_vector = print_move(board_vector,mark,player,mark_e);
         won = checkwin(board_vector,mark);
+        c.get_int("");
     }
     c.clear_screen();
     if (won == 0){
