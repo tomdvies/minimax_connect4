@@ -126,13 +126,13 @@ int minimax_evaluate(Board square,char player, char team, char enemy,int move,in
 //    new_square = make_move(square,move,player);
     int score =0;
     dump_message(function_calls);
-    if (checkwin(new_square,team)==1){
+    if (checkwin(new_square,team) == WIN){
         return 10;}
-    else if (checkwin(new_square,enemy)==1){
+    else if (checkwin(new_square,enemy) == WIN){
         return -10;}
-    else if (checkwin(new_square,team) == 0){
+    else if (checkwin(new_square,team) == DRAW){
         return 0;}
-    else if (checkwin(new_square,team) ==-1 and checkwin(new_square,enemy)==-1){
+    else if (checkwin(new_square,team) == ONGOING and checkwin(new_square,enemy)== ONGOING){
         int choice_player_score = 0;
         int choice_enemy_score = 0;
         int eval_score;

@@ -34,7 +34,7 @@ void test_game(){
 void main_game(){
 
     int player = 2;
-    int won =-1;
+	GameResult gameResult = ONGOING;
     char mark;
     char mark_e;
     c.clear_screen();
@@ -42,16 +42,16 @@ void main_game(){
     Board board_vector ={std::vector<char> {' ',' ',' ',' ',' ',' '},std::vector<char> {' ',' ',' ',' ',' ',' '},std::vector<char> {' ',' ',' ',' ',' ',' '},std::vector<char> {'O','X','O','X','O','X'},std::vector<char> {'X','O','X','O','X','O'},std::vector<char> {'X','O','X','O','X','O'}};
 //    Board board_vector ={std::vector<char> {'O','X','O','X',' ',' '},std::vector<char> {'X','O','X','O',' ','X'},std::vector<char> {'O','X','O','X','O','X'},std::vector<char> {'O','X','O','X','O','X'},std::vector<char> {'X','O','X','O','O','O'},std::vector<char> {'X','O','X','O','X','O'}};
 
-    while(won ==-1){
+    while(gameResult == ONGOING){
         player=(player==2)?1:2;
         mark=(player == 1) ? 'X' : 'O';
         mark_e=(player==1) ? 'O' : 'X';
         board_vector = print_move(board_vector,mark,player,mark_e);
-        won = checkwin(board_vector,mark);
+	    gameResult = checkwin(board_vector, mark);
         c.get_int("");
     }
     c.clear_screen();
-    if (won == 0){
+    if (gameResult == DRAW){
         c.get_int("Game draw.\n"+board(board_vector)+"\n\nPress any key to leave.");
         c.get_int("");
     }
@@ -73,39 +73,39 @@ void main_game(){
 //}
 
 
-int checkwin(Board board,char player){
+GameResult checkwin(Board board,char player){
     int board_height = board.size();
     int board_width = board[0].size();
     for(int y = 0; board_height > y; y++){
         for (int x = 0;board_width-3 > x; x=x+1){
             if (board[y][x] == player and board[y][x+1] == player and board[y][x+2] == player and board[y][x+3] == player)
-                return 1;
+                return WIN;
         }
     }
     for(int y = 0; board_height-3 > y; y++){
         for (int x = 0;board_width > x; x=x+1){
             if (board[y][x] == player and board[y+1][x] == player and board[y+2][x] == player and board[y+3][x] == player)
-                return 1;
+                return WIN;
         }
     }
     for(int y = 0; board_height-3 > y; y++){
         for (int x = 0;board_width-3 > x; x=x+1){
             if (board[y][x] == player and board[y+1][x+1] == player and board[y+2][x+2] == player and board[y+3][x+3] == player)
-                return 1;
+                return WIN;
         }
     }
     for(int y = 3; board_height  > y; y++){
         for (int x = 0;board_width > x; x=x+1){
             if (board[y][x] == player and board[y-1][x+1] == player and board[y-2][x+2] == player and board[y-3][x+3] == player)
-                return 1;
+                return WIN;
         }
     }
     for(int y=0;board_height>y;y++){
         for(int x=0;board_width>x;x++){
-            if (board[x][y] ==' ') return -1;
+            if (board[x][y] ==' ') return ONGOING;
         }
     }
-    return 0;
+    return DRAW;
 }
 
 
