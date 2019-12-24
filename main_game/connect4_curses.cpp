@@ -18,7 +18,6 @@ std::string board(Board);
 void main_game();
 Board print_move(Board old_board,char team,int player,char enemy);
 int get_move(Board board_vector,int player);
-int checkwin(Board board,char player);
 Board make_move(Board board,int move,char player);
 void save_board(Board board);
 Board load_board(std::string file);
@@ -141,7 +140,7 @@ Board print_move(Board old_board,char team,int player,char enemy){
     c.clear_screen();
     int move;
 //    if (team == 'O')
-    move = choice_minimax(checkwin,old_board,team,enemy);
+    move = choice_minimax(old_board,team,enemy);
 //    else move = get_move(old_board,player) -1;
     if (move ==-1)
     save_board(old_board);

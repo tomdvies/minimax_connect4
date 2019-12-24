@@ -4,6 +4,7 @@
 
 #include "board.h"
 #include "minimax_algorithm.hpp"
+#include "connect4_curses.hpp"
 #include <vector>
 #include <fstream>
 #include <map>
@@ -12,11 +13,11 @@ std::map<std::string, int> boardEnemyMinimax;
 std::map<std::string, int> boardTeamMinimax;
 int function_calls = 0;
 
-int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move);
+int minimax_evaluate(Board square,char player, char team, char enemy,int move);
 void dump_message(std::string message);
-int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta);
+int minimax_evaluate(Board square,char player, char team, char enemy,int move,int alpha,int beta);
 std::string boardKey(Board board);
-int cachedEvaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta);
+int cachedEvaluate(Board square,char player, char team, char enemy,int move,int alpha,int beta);
 Board make_move(Board board,int move,char player);
 
 
@@ -65,7 +66,7 @@ Board make_move(Board board,int move,char player){
     return new_board;
 }
 
-int choice_minimax(std::function<int(Board square,char team)> checkwin, Board square, char team, char enemy) {
+int choice_minimax(Board square, char team, char enemy) {
     function_calls=0;
     boardTeamMinimax.clear();
     boardEnemyMinimax.clear();
@@ -77,7 +78,7 @@ int choice_minimax(std::function<int(Board square,char team)> checkwin, Board sq
 
     for (int i=0; square[0].size() > i; i=i+1){
         if (square[0][i] ==team or square[0][i] ==enemy){choices_values[i] = -1000000000;continue;}
-        choices_values[i]=cachedEvaluate(checkwin, square,team,team ,enemy,i,-1000000000,100000000);
+        choices_values[i]=cachedEvaluate(square,team,team ,enemy,i,-1000000000,100000000);
 //        dump_message(std::to_string(choices_values[i])+ " ");
     }
 
@@ -90,14 +91,14 @@ int choice_minimax(std::function<int(Board square,char team)> checkwin, Board sq
 }
 
 
-int cachedEvaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta){
+int cachedEvaluate(Board square,char player, char team, char enemy,int move,int alpha,int beta){
     Board new_square;
     new_square = make_move(square,move,player);
     std::string key= boardKey(new_square);
     if (player == enemy){
         if (boardEnemyMinimax.count(key) == 0){
             function_calls++;
-            boardEnemyMinimax[key] = minimax_evaluate(checkwin,new_square,player,team,enemy,move,alpha,beta);
+            boardEnemyMinimax[key] = minimax_evaluate(new_square,player,team,enemy,move,alpha,beta);
             function_calls--;
         }
         return boardEnemyMinimax[key];
@@ -105,7 +106,7 @@ int cachedEvaluate(std::function<int(Board square,char team)> checkwin, Board sq
     if (player == team){
         if (boardTeamMinimax.count(key) == 0){
             function_calls++;
-            boardTeamMinimax[key] = minimax_evaluate(checkwin,new_square,player,team,enemy,move,alpha,beta);
+            boardTeamMinimax[key] = minimax_evaluate(new_square,player,team,enemy,move,alpha,beta);
             function_calls--;
         }
         return boardTeamMinimax[key];
@@ -114,7 +115,7 @@ int cachedEvaluate(std::function<int(Board square,char team)> checkwin, Board sq
 }
 
 
-int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta){
+int minimax_evaluate(Board square,char player, char team, char enemy,int move,int alpha,int beta){
     if (square[0][move] !=' '){
         return 0;}
 //    if (function_calls>41){
@@ -143,12 +144,12 @@ int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board 
 
             if (player == enemy){
                 if (i==0) {
-                    choice_player_score = cachedEvaluate(checkwin,new_square,team,team,enemy,i,alpha,beta);
+                    choice_player_score = cachedEvaluate(new_square,team,team,enemy,i,alpha,beta);
                     eval_score = choice_player_score;
                 }
 
                 else{
-                    eval_score = cachedEvaluate(checkwin,new_square,team,team,enemy,i,alpha,beta);
+                    eval_score = cachedEvaluate(new_square,team,team,enemy,i,alpha,beta);
                 }
 
                 choice_player_score=std::max(eval_score,choice_player_score);
@@ -163,11 +164,11 @@ int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board 
             }
             else {
                 if (i==0) {
-                    choice_enemy_score = cachedEvaluate(checkwin,new_square,enemy,team,enemy,i,alpha,beta);
+                    choice_enemy_score = cachedEvaluate(new_square,enemy,team,enemy,i,alpha,beta);
                     eval_score = choice_enemy_score;
                 }
                 else{
-                    eval_score = cachedEvaluate(checkwin,new_square,enemy,team,enemy,i,alpha,beta);
+                    eval_score = cachedEvaluate(new_square,enemy,team,enemy,i,alpha,beta);
                 }
                 choice_enemy_score=std::min(eval_score,choice_enemy_score);
 //                beta = std::min(beta, choice_enemy_score);

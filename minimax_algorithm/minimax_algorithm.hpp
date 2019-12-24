@@ -1,13 +1,11 @@
 //
 // Created by tom on 24/07/19.
 //
+#ifndef MINIMAX_MINIMAX_ALGORITHM_H
+#define MINIMAX_MINIMAX_ALGORITHM_H
 
 #include <functional>
 #include <vector>
 
-#ifndef MINIMAX_MINIMAX_ALGORITHM_H
-#define MINIMAX_MINIMAX_ALGORITHM_H
-
+int choice_minimax(std::vector<std::vector<char>> square, char team, char enemy);
 #endif //MINIMAX_MINIMAX_ALGORITHM_H
-
-int choice_minimax(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square, char team, char enemy);
