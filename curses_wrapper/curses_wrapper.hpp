@@ -5,9 +5,6 @@
 #ifndef MINIMAX_CURSES_WRAPPER_HPP
 #define MINIMAX_CURSES_WRAPPER_HPP
 
-#endif //MINIMAX_CURSES_WRAPPER_HPP
-
-
 #include <string>
 #include <curses.h>
 #include <vector>
@@ -34,5 +31,6 @@ public:
     int get_int(std::string message);
 };
 
+#endif //MINIMAX_CURSES_WRAPPER_HPP
 
 
