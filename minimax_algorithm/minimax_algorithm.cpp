@@ -2,6 +2,7 @@
 // Created by tom on 24/07/19.
 //
 
+#include "board.h"
 #include "minimax_algorithm.hpp"
 #include <vector>
 #include <fstream>
@@ -11,15 +12,15 @@ std::map<std::string, int> boardEnemyMinimax;
 std::map<std::string, int> boardTeamMinimax;
 int function_calls = 0;
 
-int minimax_evaluate(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square,char player, char team, char enemy,int move);
+int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move);
 void dump_message(std::string message);
-int minimax_evaluate(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square,char player, char team, char enemy,int move,int alpha,int beta);
-std::string boardKey(std::vector<std::vector<char>> board);
-int cachedEvaluate(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square,char player, char team, char enemy,int move,int alpha,int beta);
-std::vector<std::vector<char>> make_move(std::vector<std::vector<char>> board,int move,char player);
+int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta);
+std::string boardKey(Board board);
+int cachedEvaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta);
+Board make_move(Board board,int move,char player);
 
 
-std::string boardKey(std::vector<std::vector<char>> board){
+std::string boardKey(Board board){
     std::string key;
     for(int i =0;i<board.size();i++){
         for (char &c: board[i])
@@ -52,8 +53,8 @@ void dump_message(int message){
     outfile << " ";
 }
 
-std::vector<std::vector<char>> make_move(std::vector<std::vector<char>> board,int move,char player){
-    std::vector<std::vector<char>> new_board = board;
+Board make_move(Board board,int move,char player){
+    Board new_board = board;
     for (int i =0; i<board.size();i++){
         if (board[i][move]!=' '){
             return new_board;
@@ -64,11 +65,11 @@ std::vector<std::vector<char>> make_move(std::vector<std::vector<char>> board,in
     return new_board;
 }
 
-int choice_minimax(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square, char team, char enemy) {
+int choice_minimax(std::function<int(Board square,char team)> checkwin, Board square, char team, char enemy) {
     function_calls=0;
     boardTeamMinimax.clear();
     boardEnemyMinimax.clear();
-    std::vector<std::vector<char>> new_square = square;
+    Board new_square = square;
     std::vector<int> choices_values(square[0].size(),0);
     int choice =1;
 //    choices_values.
@@ -89,8 +90,8 @@ int choice_minimax(std::function<int(std::vector<std::vector<char>> square,char 
 }
 
 
-int cachedEvaluate(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square,char player, char team, char enemy,int move,int alpha,int beta){
-    std::vector<std::vector<char>> new_square;
+int cachedEvaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta){
+    Board new_square;
     new_square = make_move(square,move,player);
     std::string key= boardKey(new_square);
     if (player == enemy){
@@ -113,14 +114,14 @@ int cachedEvaluate(std::function<int(std::vector<std::vector<char>> square,char 
 }
 
 
-int minimax_evaluate(std::function<int(std::vector<std::vector<char>> square,char team)> checkwin, std::vector<std::vector<char>> square,char player, char team, char enemy,int move,int alpha,int beta){
+int minimax_evaluate(std::function<int(Board square,char team)> checkwin, Board square,char player, char team, char enemy,int move,int alpha,int beta){
     if (square[0][move] !=' '){
         return 0;}
 //    if (function_calls>41){
 //        function_calls--;
 //        return 0;
 //    }
-    std::vector<std::vector<char>> new_square =square;
+    Board new_square =square;
 //    new_square = make_move(square,move,player);
     int score =0;
     dump_message(function_calls);
