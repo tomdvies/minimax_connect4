@@ -102,8 +102,7 @@ int cachedEvaluate(Board square,char player, char team, char enemy,int move,int 
             function_calls--;
         }
         return boardEnemyMinimax[key];
-    }
-    if (player == team){
+    } else {
         if (boardTeamMinimax.count(key) == 0){
             function_calls++;
             boardTeamMinimax[key] = minimax_evaluate(new_square,player,team,enemy,move,alpha,beta);

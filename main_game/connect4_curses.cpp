@@ -159,8 +159,8 @@ Board print_move(Board old_board,char team,int player,char enemy){
     }
     Board new_board = old_board;
     for (int i =0; i<old_board.size();i++){
-        if (old_board[i][move]!=' '){
-            return new_board;
+        if (old_board[i][move]!=' ') {
+            break;
         }
         new_board=old_board;
         new_board[i][move]=team;
@@ -168,6 +168,7 @@ Board print_move(Board old_board,char team,int player,char enemy){
         c.middle_print("Player 1 (X) vs Player 2 (O)\n"+board(new_board)+"\n\nPlacing piece.");
         std::this_thread::sleep_for(std::chrono::milliseconds(75));
     }
+	return new_board;
 }
 
 std::string board(Board board_vector){
